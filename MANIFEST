@@ -35,3 +35,4 @@ t/set.t
 t/simple.t
 t/symlink.t
 t/write.t
+t/perl-critic.t

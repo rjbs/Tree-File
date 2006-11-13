@@ -14,7 +14,7 @@ Tree::File - store a data structure in a file tree
 
 version 0.09
 
- $Id: File.pm,v 1.8 2005/08/08 19:50:51 hdp Exp $
+ $Id$
 
 =cut
 
@@ -67,20 +67,16 @@ sub new {
 
   $arg->{lock_mgr} = bless { root => $root } => "Tree::File::LockManager";
   
-  my $self = $class->_load("", $arg->{preload}, {%$arg, basedir => $root});
+  my $self = $class->_load(q{}, $arg->{preload}, {%$arg, basedir => $root});
 
   return $self;
 }
 
 sub _as_arg {
   my $self = shift;
-  return { map { $_ => $self->{$_} }
-	   qw(basedir
-	      lock_mgr
-	      readonly
-	      found
-	      not_found
-	     ) };
+  return {
+    map { $_ => $self->{$_} } qw(basedir lock_mgr readonly found not_found)
+  };
 }
 
 sub _new_node {
@@ -125,7 +121,7 @@ sub _load {
       $arg->{readonly}++;
       $lock_mgr->no_op;
     } else {
-      die;
+      die; ## no critic Carping
     }
   }
 
@@ -221,10 +217,10 @@ are automatically expanded into trees.
 
 =cut
 
-sub set {
+sub set { ## no critic Ambiguous
   my ($self, $id, $value, $root) = @_;
 
-  $value = $value->data if UNIVERSAL::isa($value, "Tree::File");
+  $value = $value->data if eval { $value->isa("Tree::File") };
 
   croak "set called on readonly tree" if $self->{readonly};
   
@@ -247,7 +243,7 @@ This method deletes the identified branch (and returns the deleted value).
 
 =cut
 
-sub delete {
+sub delete { ## no critic Homonym
   my ($self, $id) = @_;
 
   croak "delete called on readonly tree" if $self->{readonly};
@@ -342,7 +338,7 @@ sub nodes {
 sub branch_names {
   my $self = shift;
   return $self->_handoff(@_) if @_;
-  return grep { UNIVERSAL::isa($self->get($_), "Tree::File") } $self->node_names();
+  return grep { eval { $self->get($_)->isa("Tree::File") } } $self->node_names;
 }
 
 =head2 C<< $tree->branches >>
@@ -372,8 +368,8 @@ sub data {
   for ($self->node_names) {
     my $datum = $self->get($_);
     
-    $data{$_} = UNIVERSAL::isa($datum, "Tree::File") ? $datum->data
-                                                     : $datum;
+    $data{$_} = eval { $datum->isa("Tree::File") } ? $datum->data
+                                                   : $datum;
   }
 
   return \%data;
@@ -387,7 +383,7 @@ was orginally loaded as a directory.
 
 =cut
 
-sub write {
+sub write { ## no critic Homonym
   my $self    = shift;
   my $basedir = shift || $self->{basedir};
   my $root    = $basedir ? "$basedir/$self->{root}" : $self->{root};
@@ -406,7 +402,7 @@ sub write {
     File::Path::mkpath($root);
     for ($self->node_names) {
       my $datum = $self->get($_);
-      if (UNIVERSAL::isa($datum, "Tree::File")) { $datum->write($basedir) }
+      if (eval { $datum->isa("Tree::File") }) { $datum->write($basedir) }
       else { $self->write_file("$root/$_", $datum) }
     }
   } else {
@@ -442,7 +438,7 @@ sub type {
   return $self->{type} unless @_;
 
   my $type = shift;
-  return undef $self->{type} unless defined $type;
+  return $self->{type} = undef unless defined $type;
 
   croak "invalid branch type: $type" unless $type =~ /\A(?:dir|file)\Z/;
 

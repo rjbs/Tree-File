@@ -16,13 +16,13 @@ Tree::File::YAML - store a data structure in a file tree (using YAML)
 
 =head1 VERSION
 
-version 0.09
+version 0.110
 
- $Id: YAML.pm,v 1.3 2005/07/28 15:34:56 rjbs Exp $
+ $Id$
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.110';
 
 =head1 SYNOPSIS
 

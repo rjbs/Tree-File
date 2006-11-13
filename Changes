@@ -1,5 +1,8 @@
 Revision history for Tree-File
 
+0.110   2006-11-13
+        packaging improvements: kwalitee, license, perl critic, code clarity
+
 0.10    2005-07-28
         avoid importing more symbols
         ...but do use Carp where needed

@@ -1,5 +1,8 @@
 Revision history for Tree-File
 
+0.111   2010-10-19
+        add missing YAML prereq
+
 0.110   2006-11-13
         packaging improvements: kwalitee, license, perl critic, code clarity
 

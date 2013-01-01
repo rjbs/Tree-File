@@ -1,5 +1,11 @@
 Revision history for Tree-File
 
+0.112   2013-01-01
+        Don't bother trying to install on Win32.  Locking times out, and nobody
+        should be using this anyway.
+
+        Please don't use this library.  It was a dumb idea.
+
 0.111   2010-10-19
         add missing YAML prereq
 
@@ -12,7 +18,7 @@ Revision history for Tree-File
         more explicit division of logic in write_file
         added TODO test for writing branches without touching parents
         better reporting on lock failure
-        
+
 0.09    2005-07-28 09:00
         First release, unleashed on an unsuspecting world.
 

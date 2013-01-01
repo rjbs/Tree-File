@@ -12,11 +12,11 @@ Tree::File - (DEPRECATED) store a data structure in a file tree
 
 =head1 VERSION
 
-version 0.111
+version 0.112
 
 =cut
 
-our $VERSION = '0.111';
+our $VERSION = '0.112';
 
 =head1 SYNOPSIS
 

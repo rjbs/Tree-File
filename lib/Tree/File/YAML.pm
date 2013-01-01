@@ -16,11 +16,11 @@ Tree::File::YAML - (DEPRECATED) store a data structure in a file tree (using YAM
 
 =head1 VERSION
 
-version 0.111
+version 0.112
 
 =cut
 
-our $VERSION = '0.111';
+our $VERSION = '0.112';
 
 =head1 SYNOPSIS
 

@@ -12,13 +12,11 @@ use YAML ();
 
 =head1 NAME
 
-Tree::File::YAML - store a data structure in a file tree (using YAML)
+Tree::File::YAML - (DEPRECATED) store a data structure in a file tree (using YAML)
 
 =head1 VERSION
 
 version 0.111
-
- $Id$
 
 =cut
 
@@ -89,12 +87,12 @@ sub write_file {
 
   $filename =~ s{//}{/}g;
   $filename =~ s{/\Z}{};
-  
+
   if (-d $filename) {
     File::Path::rmtree($filename);
     return YAML::DumpFile($filename, $data);
   }
-  
+
   if (-f $filename) {
     return YAML::DumpFile($filename, $data);
   }

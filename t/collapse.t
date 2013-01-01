@@ -10,7 +10,7 @@ BEGIN { use_ok("Tree::File::YAML"); }
 my $data = { aliens => { invaders   => [ qw(zim v orbs decepticons)    ],
                          'lost way' => [ "alf", "ray walston", "e.t."  ] },
              armies => { german     => { soldiers  => [ qw(schultz klink) ],
-                                         prisoners => [ "hogan", "chuck norris", 
+                                         prisoners => [ "hogan", "chuck norris",
                                                         "the rest of the gang" ] } },
              stooges=> [ qw(larry moe curly shemp) ]
            };

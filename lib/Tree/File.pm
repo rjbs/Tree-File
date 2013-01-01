@@ -8,13 +8,11 @@ use File::Path ();
 
 =head1 NAME
 
-Tree::File - store a data structure in a file tree
+Tree::File - (DEPRECATED) store a data structure in a file tree
 
 =head1 VERSION
 
 version 0.111
-
- $Id$
 
 =cut
 
@@ -66,7 +64,7 @@ sub new {
   my ($class, $root, $arg) = @_;
 
   $arg->{lock_mgr} = bless { root => $root } => "Tree::File::LockManager";
-  
+
   my $self = $class->_load(q{}, $arg->{preload}, {%$arg, basedir => $root});
 
   return $self;
@@ -86,7 +84,7 @@ sub _new_node {
   if (ref $self and not $arg) {
     $arg = $self->_as_arg;
   }
-  
+
   return $data if ref $data ne 'HASH';
 
   my $processed_data = {
@@ -223,7 +221,7 @@ sub set { ## no critic Ambiguous
   $value = $value->data if eval { $value->isa("Tree::File") };
 
   croak "set called on readonly tree" if $self->{readonly};
-  
+
   $id && $id =~ s|\A/+||;
   $root = $id unless $root;
   my $rest;
@@ -232,7 +230,7 @@ sub set { ## no critic Ambiguous
 
   ($id, $rest) = split m|/|, $id, 2;
   if ($rest) { return $self->get($id, 1)->set($rest, $value, $root); }
-  
+
   return $self->{data}{$id} =
     $self->_new_node($root, $value);
 }
@@ -247,7 +245,7 @@ sub delete { ## no critic Homonym
   my ($self, $id) = @_;
 
   croak "delete called on readonly tree" if $self->{readonly};
-  
+
   $id && $id =~ s|\A/+||;
   my $rest;
 
@@ -255,7 +253,7 @@ sub delete { ## no critic Homonym
 
   ($id, $rest) = split m|/|, $id, 2;
   if ($rest) { return $self->get($id)->delete($rest); }
-  
+
   return delete $self->{data}{$id};
 }
 
@@ -367,7 +365,7 @@ sub data {
 
   for ($self->node_names) {
     my $datum = $self->get($_);
-    
+
     $data{$_} = eval { $datum->isa("Tree::File") } ? $datum->data
                                                    : $datum;
   }
@@ -394,7 +392,7 @@ sub write { ## no critic Homonym
   my $type = $self->type
           || (-d $root && 'dir')
           || 'file';
-  
+
   $lock_mgr->lock();
 
   if ($type eq 'dir') {
@@ -465,7 +463,7 @@ use File::Basename ();
 sub lock {
   my ($self, $tree) = @_;
   return if $self->{_no_op};
-  
+
   unless ($self->{_lockfile}) {
     my $lockfile = File::Basename::dirname($self->{root}) . "/.lock";
     unless (-e $lockfile) {

@@ -2,6 +2,9 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
+die "Win32 is currently not supported due to timeouts in t/collapse.t\n"
+  if $^O eq 'MSWin32';
+
 WriteMakefile(
     NAME                => 'Tree::File',
     AUTHOR              => 'Ricardo Signes <rjbs@cpan.org>',

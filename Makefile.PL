@@ -28,6 +28,7 @@ WriteMakefile(
     ($mm_ver <= 6.45
         ? ()
         : (META_MERGE => {
+            x_deprecated => 1,
             'meta-spec' => { version => 2 },
             resources => {
                 repository  => {

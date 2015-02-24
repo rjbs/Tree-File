@@ -2,6 +2,7 @@ Revision history for Tree-File
 
 0.113   2015-02-??
         - Added github repo to dist metadata
+        - Added x_deprecated to dist metadata to tag dist as deprecated
 
 0.112   2013-01-01
         Don't bother trying to install on Win32.  Locking times out, and nobody
